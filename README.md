@@ -6,7 +6,8 @@ This is mostly to learn some basics of using PeerJS and WebRTC.
 ### Install
 Need too install peer globally through npm
 `npm i -g peer`
-`npm install`
+
+Install other dependencies: `npm install`
 
 ### Running
 Start up the peer server on a port
