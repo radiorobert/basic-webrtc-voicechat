@@ -10,6 +10,8 @@ const myAudio = document.createElement('audio');
 myAudio.setAttribute('id', "person");
 myAudio.muted = true;  // ensure you can't hear your own audio
 
+const peers = {}
+
 // get the media devices
 navigator.mediaDevices.getUserMedia({
   audio: true,
@@ -32,8 +34,12 @@ navigator.mediaDevices.getUserMedia({
   });
 });
 
-socket.on('user-disconnected', () => {
-  console.log(userId);
+// handle disconnect
+socket.on('user-disconnected', userId => {
+  if(peers[userId]) {
+    peers[userId].close();
+  }
+
 });
 
 // establish peer connection
@@ -58,6 +64,9 @@ function connectToNewUser(userId, stream) {
   call.on('close', () => {
     audio.remove();
   });
+
+  // link the user id to calls
+  peers[userId] = call;
 }
 
 /* Add the audio to the DOM */
