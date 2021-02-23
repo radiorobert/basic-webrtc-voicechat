@@ -21,6 +21,10 @@ io.on('connection', socket => {
   socket.on('join-room', (roomId, userId) => {
     socket.join(roomId);  // join the room you tried to nav to
     socket.to(roomId).broadcast.emit('user-connected', userId);
+
+    socket.on('disconnect', () => {
+      socket.to(roomId).broadcast.emit('user-disconnected', userId);
+    });
   });
 });
 
